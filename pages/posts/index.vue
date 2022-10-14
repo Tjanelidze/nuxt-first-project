@@ -11,30 +11,14 @@ export default {
   components: {
     PostList,
   },
-  asyncData(context, callback) {
-    return new Promise().catch((e) => {
-      context.error(new Error())
-    })
-    setTimeout(() => {
-      callback(null, {
-        loadedPosts: [
-          {
-            id: '1',
-            title: 'First post',
-            previewText: 'This is our first post!',
-            thumbnail:
-              'https://youmatter.world/app/uploads/sites/2/2019/11/tech-planet.jpg',
-          },
-          {
-            id: '2',
-            title: 'Second post',
-            previewText: 'This is our second post!',
-            thumbnail:
-              'https://www.agilitypr.com/wp-content/uploads/2020/02/technology-1-1.jpg',
-          },
-        ],
-      })
-    }, 1500)
+  
+  computed: {
+    loadedPosts() {
+      return this.$store.getters.loadedPosts
+    },
+  },
+  created() {
+    this.$store.dispatch('setPosts', this.loadedPosts)
   },
 }
 </script>
