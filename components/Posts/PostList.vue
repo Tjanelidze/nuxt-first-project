@@ -1,25 +1,13 @@
 <template>
   <section class="posts-list">
     <PostPreview
-      id="1"
+      v-for="post in posts"
+      :key="post.id"
+      :id="post.id"
       :is-admin="isAdmin"
-      thumbnail="https://www.itu.int/hub/wp-content/uploads/sites/4/2021/10/Lets-build-consensus-on-how-new-tech-should-factor-into-our-future.jpg"
-      title="Hello There!"
-      previewText="This is my first post!"
-    />
-    <PostPreview
-      id="2"
-      :is-admin="isAdmin"
-      thumbnail="https://www.agilitypr.com/wp-content/uploads/2020/02/technology-1-1.jpg"
-      title="Hello There! - 2"
-      previewText="This is my second post!"
-    />
-    <PostPreview
-      id="3"
-      :is-admin="isAdmin"
-      thumbnail="https://youmatter.world/app/uploads/sites/2/2019/11/tech-planet.jpg"
-      title="Gamarjoba"
-      previewText="Chqim post!"
+      :thumbnail="post.thumbnail"
+      :title="post.title"
+      :previewText="post.previewText"
     />
   </section>
 </template>
@@ -35,6 +23,10 @@ export default {
     isAdmin: {
       type: Boolean,
       default: false,
+    },
+    posts: {
+      type: Array,
+      required: true,
     },
   },
 }
