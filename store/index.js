@@ -1,5 +1,4 @@
 import Vuex from 'vuex'
-// import ('axios')
 
 const createStore = () => {
   return new Vuex.Store({
@@ -9,6 +8,15 @@ const createStore = () => {
     mutations: {
       setPosts(state, posts) {
         state.loadedPosts = posts
+      },
+      addPost(state, post) {
+        state.loadedPosts.push(post)
+      },
+      editpost(state, editedPost) {
+        const postIndex = state.loadedPosts.findIndex(
+          (post) => post.id === editedPost.id
+        )
+        state.loadedPosts[postIndex] = editedPost
       },
     },
     actions: {
@@ -25,6 +33,43 @@ const createStore = () => {
             vuexContext.commit('setPosts', postArray)
           })
           .catch((e) => context.error(e))
+      },
+
+      addPost(vuexContext, post) {
+        const createdPost = { ...post, updatedDate: new Date() }
+        return fetch(
+          'https://nuxt-blog-1694c-default-rtdb.firebaseio.com/posts.json',
+          {
+            method: 'POST',
+            body: JSON.stringify(post),
+          },
+          createdPost
+        )
+          .then((response) => response.json())
+          .then((res) => {
+            console.log(res)
+            vuexContext.commit('addPost', {
+              ...createdPost,
+              id: res.name,
+            })
+          })
+          .catch((e) => console.log(e.message))
+      },
+      editPost(vuexContext, editedPost) {
+        return fetch(
+          'https://nuxt-blog-1694c-default-rtdb.firebaseio.com/posts/' +
+            editedPost.id +
+            '.json',
+          {
+            method: 'PUT',
+            body: JSON.stringify(editedPost),
+          }
+        )
+          .then((response) => response.json())
+          .then((res) => {
+            vuexContext.commit('editpost', editedPost)
+          })
+          .catch((e) => console.log(e.message))
       },
 
       setPosts(vuexContext, posts) {

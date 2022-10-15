@@ -1,12 +1,14 @@
 <template>
   <div class="admin-page">
     <section class="new-post">
-      <app-button @click="$router.push('/admin/new-post')">Create Post</app-button>
+      <app-button @click="$router.push('/admin/new-post')"
+        >Create Post</app-button
+      >
     </section>
 
     <section class="existing-posts">
       <h1>Existing Posts</h1>
-      <post-list isAdmin />
+      <post-list isAdmin :posts="loadedPosts" />
     </section>
   </div>
 </template>
@@ -20,6 +22,11 @@ export default {
   components: {
     PostList,
     AppButton,
+  },
+  computed: {
+    loadedPosts() {
+      return this.$store.getters.loadedPosts
+    },
   },
 }
 </script>
