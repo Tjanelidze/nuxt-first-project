@@ -3,9 +3,7 @@
     <section class="post">
       <h1 class="post-title">{{ loadedPost.title }}</h1>
       <div class="post-details">
-        <div class="post-detail">
-          Last updated on {{ loadedPost.updatedDate }}
-        </div>
+        <div class="post-detail">Last updated on {{ myDate }}</div>
         <div class="post-detail">Written by {{ loadedPost.author }}</div>
       </div>
       <p class="post-content">{{ loadedPost.content }}</p>
@@ -22,22 +20,27 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import axios from 'axios'
 
 export default {
   asyncData(context) {
     return axios
-      .get(
-        'https://nuxt-blog-1694c-default-rtdb.firebaseio.com/posts/' +
-          context.params.id +
-          '.json'
-      )
+      .get(process.env.baseUrl + '/posts/' + context.params.id + '.json')
       .then((res) => {
         return {
           loadedPost: res.data,
         }
       })
       .catch((e) => context.error(e))
+  },
+  head: {
+    title: 'A Blog Post',
+  },
+  computed: {
+    myDate() {
+      return this.$dateFilter(new Date(this.loadedPost.updatedDate))
+    },
   },
 }
 </script>

@@ -10,6 +10,7 @@ const createStore = () => {
         state.loadedPosts = posts
       },
       addPost(state, post) {
+        console.log(state.loadedPosts)
         state.loadedPosts.push(post)
       },
       editpost(state, editedPost) {
@@ -21,9 +22,7 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit(vuexContext, context) {
-        return fetch(
-          'https://nuxt-blog-1694c-default-rtdb.firebaseio.com/posts.json'
-        )
+        return fetch(process.env.baseUrl + '/posts.json')
           .then((response) => response.json())
           .then((res) => {
             const postArray = []
@@ -37,17 +36,17 @@ const createStore = () => {
 
       addPost(vuexContext, post) {
         const createdPost = { ...post, updatedDate: new Date() }
+
         return fetch(
-          'https://nuxt-blog-1694c-default-rtdb.firebaseio.com/posts.json',
+          process.env.baseUrl + '/posts.json',
           {
             method: 'POST',
-            body: JSON.stringify(post),
+            body: JSON.stringify(createdPost),
           },
           createdPost
         )
           .then((response) => response.json())
           .then((res) => {
-            console.log(res)
             vuexContext.commit('addPost', {
               ...createdPost,
               id: res.name,
