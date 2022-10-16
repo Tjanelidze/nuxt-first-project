@@ -1,3 +1,5 @@
+import bodyParser from 'body-parser'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -41,10 +43,12 @@ export default {
     baseUrl:
       process.env.BASE_URL ||
       'https://nuxt-blog-1694c-default-rtdb.firebaseio.com',
-      fbAPIKey: 'AIzaSyDJstk-W8dij_48Auv2ZHSR0Oerh3aOAU0'
+    fbAPIKey: 'AIzaSyDJstk-W8dij_48Auv2ZHSR0Oerh3aOAU0',
   },
   transition: {
     name: 'fade',
     mode: 'out-in',
   },
+
+  serverMiddleware: [bodyParser.json(), '~/api'],
 }

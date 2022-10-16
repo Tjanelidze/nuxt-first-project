@@ -112,7 +112,19 @@ const createStore = () => {
           new Date().getTime() + +responseData.expiresIn * 1000
         )
         console.log(responseData)
-        return responseData
+        // return responseData
+
+        const authResponse = await fetch(
+          'http://localhost:3000/api/track-data',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data: 'Authenticated' }),
+          }
+        )
+        const authResponseData = await authResponse.json()
+        console.log(authResponseData)
+        return authResponseData
       },
 
       initAuth(vuexContext, req) {
