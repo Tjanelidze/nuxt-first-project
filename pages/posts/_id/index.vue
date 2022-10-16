@@ -22,6 +22,11 @@
 <script>
 export default {
   asyncData(context) {
+    if (context.payload) {
+      return {
+        loadedPost: context.payload.postData,
+      }
+    }
     return fetch(process.env.baseUrl + '/posts/' + context.params.id + '.json')
       .then((response) => response.json())
       .then((res) => {
