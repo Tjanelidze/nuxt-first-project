@@ -33,7 +33,6 @@ export default {
   buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
@@ -42,8 +41,8 @@ export default {
     baseUrl:
       process.env.BASE_URL ||
       'https://nuxt-blog-1694c-default-rtdb.firebaseio.com',
+      fbAPIKey: 'AIzaSyDJstk-W8dij_48Auv2ZHSR0Oerh3aOAU0'
   },
-
   transition: {
     name: 'fade',
     mode: 'out-in',
