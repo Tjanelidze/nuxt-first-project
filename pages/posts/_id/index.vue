@@ -20,16 +20,13 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-
 export default {
   asyncData(context) {
-    return axios
-      .get(process.env.baseUrl + '/posts/' + context.params.id + '.json')
+    return fetch(process.env.baseUrl + '/posts/' + context.params.id + '.json')
+      .then((response) => response.json())
       .then((res) => {
         return {
-          loadedPost: res.data,
+          loadedPost: res,
         }
       })
       .catch((e) => context.error(e))
